@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        SOLUTION = "Source/RoomReservationSystem/RoomReservationSystem.sln"
+        SOLUTION = "RoomReservationSystem.sln"
         TEST_PATH = "Source/RoomReservationSystem/RoomReservationSystem.Tests"
         DOCKERFILE = "Source/RoomReservationSystem/RoomReservationSystem/Dockerfile"
         DOCKER_CONTEXT = "Source/RoomReservationSystem"
@@ -19,7 +19,7 @@ pipeline {
         stage('Restore') {
             steps {
 				dir('Source/RoomReservationSystem') {
-					sh "dotnet restore Source/RoomReservationSystem/RoomReservationSystem.sln"
+					sh "dotnet restore RoomReservationSystem.sln"
 				}
             }
         }
