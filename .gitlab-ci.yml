@@ -1,0 +1,35 @@
+image: mcr.microsoft.com/dotnet/sdk:9.0
+
+stages:
+  - build
+  - test
+  - release
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+build:
+  stage: build
+  script:
+    - dotnet build Source/RoomReservationSystem/RoomReservationSystem/RoomReservationSystem.csproj -c Release
+
+test:
+  stage: test
+  script:
+    - dotnet test Source/RoomReservationSystem/RoomReservationSystem.Tests/RoomReservationSystem.Tests.csproj --verbosity normal --logger "trx;LogFileName=TestResults.trx"
+  artifacts:
+    when: always
+    paths:
+      - Source/RoomReservationSystem/RoomReservationSystem.Tests/TestResults/
+    expire_in: 1 week
+
+release:
+  stage: release
+  only:
+    - main
+  artifacts:
+    paths:
+      - Source/RoomReservationSystem/Publish
+  script:
+    - dotnet publish -c Release -o Source/RoomReservationSystem/Publish Source/RoomReservationSystem/RoomReservationSystem/RoomReservationSystem.csproj
+  

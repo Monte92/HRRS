@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+      MYSQL_DATABASE: room_management_system
+    volumes:
+     - room_management_system:/var/lib/mysql
+     - ./init_db.d:/docker-entrypoint-initdb.d
+
+  adminer:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8888:80
+    depends_on:
+     - db
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: test
+
+  # roomreservationsystem:
+    # image: ${DOCKER_REGISTRY-}roomreservationsystem
+    # build:
+      # context: .
+      # dockerfile: RoomReservationSystem/Dockerfile
+    # stdin_open: true
+    # tty: true
+    # depends_on:
+     # - db
+
+volumes:
+    room_management_system:
