@@ -18,15 +18,17 @@ pipeline {
 
         stage('Restore') {
             steps {
-				dir('Source/RoomReservationSystem')
+				dir('Source/RoomReservationSystem') {
 					sh "dotnet restore ${SOLUTION}"
+				}
             }
         }
 
         stage('Build') {
             steps {
-				dir('Source/RoomReservationSystem')
+				dir('Source/RoomReservationSystem') {
 					sh "dotnet build ${SOLUTION} -c Release --no-restore"
+				}
             }
         }
 
@@ -38,12 +40,13 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-				dir('Source/RoomReservationSystem')
+				dir('Source/RoomReservationSystem') {
 					sh """
 					docker build -t roomreservationsystem:latest \
 						-f ${DOCKERFILE} \
 						${DOCKER_CONTEXT}
 					"""
+				}
             }
         }
     }
