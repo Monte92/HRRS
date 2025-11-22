@@ -19,7 +19,7 @@ pipeline {
         stage('Restore') {
             steps {
 				dir('Source/RoomReservationSystem') {
-					sh "dotnet restore ${SOLUTION}"
+					sh "dotnet restore Source/RoomReservationSystem/RoomReservationSystem.sln"
 				}
             }
         }
